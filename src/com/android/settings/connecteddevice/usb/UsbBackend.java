@@ -110,7 +110,9 @@ public class UsbBackend {
 
     public int getDataRole() {
         updatePorts();
-        return mPortStatus == null ? DATA_ROLE_NONE : mPortStatus.getCurrentDataRole();
+        // without a USB HAL (micro-USB, device-only) there is no port
+        // status; such a port is always in device mode
+        return mPortStatus == null ? DATA_ROLE_DEVICE : mPortStatus.getCurrentDataRole();
     }
 
     public void setPowerRole(int role) {
